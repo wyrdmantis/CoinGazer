@@ -1,75 +1,43 @@
 package com.codemantis.gzdr.coingazer;
 
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by gzdr on 07/07/2015.
  */
 public class JSONParser {
 
-    static InputStream is = null;
-    static JSONObject jobj = null;
-    static String json = "";
-    public JSONParser(){
+    public String makeHttpRequest()throws IOException {
 
+
+        URL urlNew = new URL("https://api.bitcoinaverage.com/ticker/global/USD/last");
+        HttpURLConnection urlConnection = (HttpURLConnection) urlNew.openConnection();
+        String valueString = "";
+
+        try {
+            InputStream is = new BufferedInputStream(urlConnection.getInputStream());
+            valueString = readStream(is);
+
+        }finally {
+            urlConnection.disconnect();
+        }
+        return valueString;
     }
-    public JSONObject makeHttpRequest(String url){
-        DefaultHttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost(url);
-        try {
-            HttpResponse httpresponse = httpclient.execute(httppost);
-            HttpEntity httpentity = httpresponse.getEntity();
-            is = httpentity.getContent();
 
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    private String readStream(InputStream is)throws IOException {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader r = new BufferedReader(new InputStreamReader(is),1000);
+        for (String line = r.readLine(); line != null; line =r.readLine()){
+            sb.append(line);
         }
-
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            try {
-                while((line = reader.readLine())!=null){
-                    sb.append(line+"\n");
-
-                }
-                is.close();
-                json = sb.toString();
-                try {
-                    jobj = new JSONObject(json);
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return jobj;
-
+        is.close();
+        return sb.toString();
     }
 }

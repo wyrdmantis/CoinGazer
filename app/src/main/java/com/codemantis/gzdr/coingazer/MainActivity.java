@@ -5,30 +5,25 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
-    JSONParser jsonparser = new JSONParser();
-    TextView tv;
-
-    String ab;
-    JSONObject jobj = null;
-
-
-
+    public JSONParser jsonparser = new JSONParser();
+    public TextView tv;
+    public String jobj = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tv = (TextView)findViewById(R.id.textView1);
-
+        tv = (TextView) findViewById(R.id.textView1);
 
 
         new retrieve_data().execute();
@@ -39,33 +34,6 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    class retrieve_data extends AsyncTask<String,String,String>{
-
-        @Override
-        protected String doInBackground(String... arg0) {
-            // TODO Auto-generated method stub
-            jobj = jsonparser.makeHttpRequest("https://api.bitcoinaverage.com/ticker/global/USD");
-
-            // check your log for json response
-            Log.d("Login attempt", jobj.toString());
-
-            try {
-                ab = jobj.getString("last");
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            return ab;
-        }
-        protected void onPostExecute(String ab){
-
-            tv.setText("1 BTC = "+ab+" $");
-        }
-
-
-
     }
 
     @Override
@@ -81,5 +49,32 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class retrieve_data extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... arg0) {
+
+
+            try {
+                jobj = jsonparser.makeHttpRequest();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // check your log for json response
+            Log.d("Login attempt", jobj);
+
+            return jobj;
+        }
+
+        protected void onPostExecute(String jobj) {
+
+            tv.setText("1 BTC = " + jobj + " $");
+        }
+
+
     }
 }
