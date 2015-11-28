@@ -1,5 +1,6 @@
 package com.codemantis.gzdr.coingazer;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     public JSONParser jsonparser = new JSONParser();
     public TextView tv;
