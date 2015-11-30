@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">CoinGazer</string>
 
-    <string name="hello_world">Loading last price...</string>
+    <string name="loading">Please wait...</string>
+    <string name="one_bitcoin_is">One Bitcoin is:</string>
+    <string name="dollar_sign"> $</string>
     <string name="action_settings">Settings</string>
 </resources>

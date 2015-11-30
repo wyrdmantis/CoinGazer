@@ -22,8 +22,8 @@ public class JSONParser {
         String valueString = "";
 
         try {
-            InputStream is = new BufferedInputStream(urlConnection.getInputStream());
-            valueString = readStream(is);
+            InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+            valueString = readStream(inputStream);
 
         }finally {
             urlConnection.disconnect();
@@ -31,13 +31,13 @@ public class JSONParser {
         return valueString;
     }
 
-    private String readStream(InputStream is)throws IOException {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader r = new BufferedReader(new InputStreamReader(is),1000);
-        for (String line = r.readLine(); line != null; line =r.readLine()){
-            sb.append(line);
+    private String readStream(InputStream stream)throws IOException {
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream),1000);
+        for (String line = reader.readLine(); line != null; line =reader.readLine()){
+            builder.append(line);
         }
-        is.close();
-        return sb.toString();
+        stream.close();
+        return builder.toString();
     }
 }

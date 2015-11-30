@@ -6,16 +6,34 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
     android:background="#00deae">
 
-    <TextView android:text="@string/hello_world" android:layout_width="fill_parent"
+    <TextView android:text="@string/loading" android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView1"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:textSize="36sp"
         android:background="#00deae"
         android:textAlignment="gravity"
+        android:gravity="center"
         android:textColor="#ffffffff"
         android:singleLine="true"
-         />
+        android:typeface="monospace"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/loading"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:textSize="36sp"
+        android:background="#00deae"
+        android:textAlignment="gravity"
+        android:gravity="center"
+        android:textColor="#ffffffff"
+        android:singleLine="true"
+        android:typeface="monospace"
+        android:layout_below="@+id/textView1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
